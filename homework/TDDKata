@@ -1,0 +1,44 @@
+import assert from 'assert';
+
+function Calculate(inputStr){
+    if(inputStr == '')
+        return 0;
+
+    let numbers = inputStr.split(",");
+
+    return numbers.reduce(function(a, b){return Number(a) + Number(b);})
+}
+
+
+suite('Calculator test', function () {
+    suite('when input is empty', function () {
+        test('return 0', function() {
+            let inputStr = '';
+
+            let result = Calculate(inputStr);
+
+            assert.equal(result, 0);
+        });
+    });
+
+    suite('when input is one or two numbers not null', function () {
+        test('return sum of numbers', function() {
+            let inputStr = '1, 2, 3';
+
+            let result = Calculate(inputStr);
+
+            assert.equal(result, 6);
+        });
+    });
+
+    suite('when input is more unknown amount of numbers)', function () {
+        test('return sum of numbers', function() {
+            let inputStr = '1, 2, 3, 4, 5';
+
+            let result = Calculate(inputStr);
+
+            assert.equal(result, 15);
+        });
+    });
+
+});

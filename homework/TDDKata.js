@@ -1,8 +1,5 @@
 import assert from 'assert';
 
-function isContainNewLine(inputStr) {
-    return inputStr.includes("\n");
-}
 function Calculate(inputStr){
     if(inputStr == '')
         return 0;
@@ -17,6 +14,13 @@ function Calculate(inputStr){
     }
 
     return CalculateThreeNumbers(numbers);
+}
+
+function isContainNewLine(inputStr) {
+    if(inputStr.includes("\n")){
+        return true;
+    }
+    return false;
 }
 
 function SplitStringWithCommaToArray(inputStr){
@@ -37,33 +41,27 @@ function CalculateThreeNumbers(numbers){
     numbers.forEach( x => {
         sum += Number(x);
     });
-    console.log(sum);
     return sum;
 }
 
 function CalculateStringWithNewLines(inputStr){
-   let newlinesArray = SplitStringWithNewLineToArray(inputStr);
-    let newArray = new Array();
-    newlinesArray.forEach( x => {
+   let arrayWithNewLines = SplitStringWithCommaToArray(inputStr);
+    let tempArray = new Array();
+    arrayWithNewLines.forEach( x => {
         if(isContainNewLine(x)){
-            newArray.concat(SplitStringWithCommaToArray(x));
+            [].push.apply(tempArray, SplitStringWithNewLineToArray(x));
         }else{
-            newArray.push(x);
+            tempArray.push(x);
         }
     })
-
-    return CalculateMoreThreeNumbers(newArray)
+    return CalculateMoreThreeNumbers(tempArray)
 }
-
-
 
 suite('Calculator test', function () {
     suite('when input is empty', function () {
         test('return 0', function() {
             let inputStr = '';
-
             let result = Calculate(inputStr);
-
             assert.equal(result, 0);
         });
     });
@@ -71,9 +69,7 @@ suite('Calculator test', function () {
     suite('when input is "1, 2, 3"', function () {
         test('return 6', function() {
             let inputStr = '1, 2, 3';
-
             let result = Calculate(inputStr);
-
             assert.equal(result, 6);
         });
     });
@@ -81,19 +77,15 @@ suite('Calculator test', function () {
     suite('when input is more unknown amount of numbers', function () {
         test('return sum of numbers', function() {
             let inputStr = '1, 2, 3, 4, 5';
-
             let result = Calculate(inputStr);
-
             assert.equal(result, 15);
         });
     });
 
-    suite('when input contains new lines between numbers "1\n2,3"', function () {
+    suite('when input contains new lines between numbers "1\n2,3" ', function () {
         test('return 6', function() {
             let inputStr = "1\n2,3";
-
             let result = Calculate(inputStr);
-
             assert.equal(result, 6);
         });
     });
